@@ -12,7 +12,18 @@ import { LuStar } from "react-icons/lu";
 import { RxBorderSplit } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
 
-const ProductDetails = ({ product }: { product: any }) => {
+// Define the Product type
+interface Product {
+  image?: string;
+  name: string;
+  price: number;
+  discount?: number;
+  label?: string;
+  stock?: boolean;
+  description?: string;
+}
+
+const ProductDetails = ({ product }: { product: Product }) => {
   const [viewers, setViewers] = useState(100); // Initial viewers count
 
   // Simulate live viewers
@@ -24,7 +35,7 @@ const ProductDetails = ({ product }: { product: any }) => {
         const newViewers = increase ? prev + change : prev - change;
         return Math.max(100, Math.min(220, newViewers)); // Clamp between 100 and 220
       });
-    }, 1000); // 
+    }, 1000); //
 
     return () => clearInterval(interval); // Cleanup
   }, []);
@@ -34,14 +45,16 @@ const ProductDetails = ({ product }: { product: any }) => {
       <Container className="flex flex-col md:flex-row gap-10 py-10">
         {product?.image && (
           <div className="w-full md:w-1/2 h-auto border border-darkBlue/20 shadow-md rounded-md group overflow-hidden">
-            <Image
-              src={urlFor(product?.image).url()}
-              alt="productImage"
-              width={700}
-              height={700}
-              priority
-              className="w-full max-h-[550px] object-cover group-hover:scale-110 hoverEffect rounded-md"
-            />
+            <div className="relative w-full h-[550px]">
+              <Image
+                src={urlFor(product?.image).url()}
+                alt="productImage"
+                layout="fill"
+                objectFit="contain" // Ensures the image fits within the container
+                priority
+                className="group-hover:scale-110 hoverEffect rounded-md transition-transform duration-300"
+              />
+            </div>
           </div>
         )}
         <div className="w-full md:w-1/2 flex flex-col gap-5">
