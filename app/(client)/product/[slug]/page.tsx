@@ -3,13 +3,16 @@ import { getProductBySlug } from "@/sanity/helpers";
 import Container from "@/components/Container";
 import ProductDetails from "@/components/ProductDetails";
 
+// Fixing the type definition for params
 interface Params {
   slug: string;
 }
 
-export default async function ProductPage(context: { params: Params }) {
-  const { params } = context; // Destructure params here
+interface ProductPageProps {
+  params: Params;
+}
 
+const ProductPage = async ({ params }: ProductPageProps) => {
   const product = await getProductBySlug(params.slug);
 
   if (!product) {
@@ -21,4 +24,6 @@ export default async function ProductPage(context: { params: Params }) {
       <ProductDetails product={product} />
     </Container>
   );
-}
+};
+
+export default ProductPage;
