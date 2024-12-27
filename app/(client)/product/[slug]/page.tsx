@@ -7,7 +7,9 @@ interface Params {
   slug: string;
 }
 
-export default async function ProductPage({ params }: { params: Params }) {
+export default async function ProductPage(context: { params: Params }) {
+  const { params } = context; // Destructure params here
+
   const product = await getProductBySlug(params.slug);
 
   if (!product) {
