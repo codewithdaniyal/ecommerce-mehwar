@@ -12,7 +12,14 @@ import { LuStar } from "react-icons/lu";
 import { RxBorderSplit } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
 
-const ProductPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+// export const dynamic = "force-static";
+// export const revalidate = 60;
+
+const ProductPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
@@ -20,20 +27,18 @@ const ProductPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
     return notFound();
   }
 
-  const initialViewers = Math.floor(Math.random() * (250 - 100 + 1)) + 100; // Initial random number
-
   return (
     <div>
       <Container className="flex flex-col md:flex-row gap-10 py-10">
         {product?.image && (
-          <div className="w-full md:w-1/2 h-auto border border-darkBlue/20 shadow-md rounded-md group overflow-hidden">
+          <div className="w-full md:w-1/2 h-full border border-darkBlue/20 shadow-md rounded-md group overflow-hidden">
             <Image
               src={urlFor(product?.image).url()}
               alt="productImage"
               width={700}
               height={700}
               priority
-              className="w-full max-h-[550px] object-contain group-hover:scale-110 hoverEffect rounded-md"
+              className="w-full h-full object-cover group-hover:scale-110 hoverEffect rounded-md"
             />
           </div>
         )}
@@ -69,11 +74,8 @@ const ProductPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
           )}
 
           <p className="text-base text-gray-800">
-            <span
-              id="viewer-count"
-              className="bg-black text-white px-3 py-1 text-sm font-semibold rounded-md mr-2"
-            >
-              {initialViewers}
+            <span className="bg-black text-white px-3 py-1 text-sm font-semibold rounded-md mr-2">
+              20
             </span>{" "}
             People are viewing this right now
           </p>
@@ -102,30 +104,24 @@ const ProductPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
           </div>
           <div className="flex flex-wrap items-center gap-5">
             <div className="border border-darkBlue/20 text-center p-3 hover:border-darkBlue hoverEffect rounded-md">
-              <p className="text-base font-semibold text-black">Free Shipping</p>
-              <p className="text-sm text-gray-500">Free shipping over order $120</p>
+              <p className="text-base font-semibold text-black">
+                Free Shipping
+              </p>
+              <p className="text-sm text-gray-500">
+                Free shipping over order $120
+              </p>
             </div>
             <div className="border border-darkBlue/20 text-center p-3 hover:border-darkBlue hoverEffect rounded-md">
-              <p className="text-base font-semibold text-black">Flexible Payment</p>
-              <p className="text-sm text-gray-500">Pay with Multiple Credit Cards</p>
+              <p className="text-base font-semibold text-black">
+                Flexible Payment
+              </p>
+              <p className="text-sm text-gray-500">
+                Pay with Multiple Credit Cards
+              </p>
             </div>
           </div>
         </div>
       </Container>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              const viewerElement = document.getElementById('viewer-count');
-              function updateViewerCount() {
-                const newCount = Math.floor(Math.random() * (250 - 100 + 1)) + 100;
-                viewerElement.textContent = newCount;
-              }
-              setInterval(updateViewerCount, 4000);
-            })();
-          `,
-        }}
-      ></script>
     </div>
   );
 };
