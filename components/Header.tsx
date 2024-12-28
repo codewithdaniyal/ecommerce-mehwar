@@ -82,14 +82,17 @@ const Header = async () => {
 
         {/* Categories Section */}
         <div className="bg-black text-white text-sm py-2">
-          <div className="flex justify-around">
-            <Link href="/categories/makeup" className="hover:underline">MAKEUP</Link>
-            <Link href="/categories/skincare" className="hover:underline">SKINCARE</Link>
-            <Link href="/categories/new-arrivals" className="hover:underline">NEW ARRIVALS</Link>
-            <Link href="/categories/best-sellers" className="hover:underline">BESTSELLERS</Link>
-            <Link href="/categories/sale" className="hover:underline">SALE</Link>
-            <Link href="/bundles" className="hover:underline">BUNDLES</Link>
-            <Link href="/" className="hover:underline">CONTACT US</Link>
+  <div className="flex flex-wrap sm:flex-nowrap justify-center sm:justify-around items-center gap-4 px-2">
+    <Link href="/categories/makeup" className="hover:underline">MAKEUP</Link>
+    <Link href="/categories/skincare" className="hover:underline">SKINCARE</Link>
+    <Link href="/categories/new-arrivals" className="hover:underline">NEW ARRIVALS</Link>
+    <Link href="/categories/best-sellers" className="hover:underline">BESTSELLERS</Link>
+    <Link href="/categories/sale" className="hover:underline">SALE</Link>
+    <Link href="/bundles" className="hover:underline">BUNDLES</Link>
+    <Link href="/" className="hover:underline">CONTACT US</Link>
+  </div>
+</div>
+
           </div>
         </div>
       </Container>
