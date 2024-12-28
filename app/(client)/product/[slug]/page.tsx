@@ -3,17 +3,17 @@ import { getProductBySlug } from "@/sanity/helpers";
 import Container from "@/components/Container";
 import ProductDetails from "@/components/ProductDetails";
 
-// Fixing the type definition for params
-interface Params {
-  slug: string;
-}
-
+// Update types for dynamic routing
 interface ProductPageProps {
-  params: Params;
+  params: {
+    slug: string;
+  };
 }
 
-const ProductPage = async ({ params }: ProductPageProps) => {
-  const product = await getProductBySlug(params.slug);
+// Dynamic routing and async handling
+export default async function ProductPage({ params }: ProductPageProps) {
+  const slug = params.slug; // Explicitly use slug as a string
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return <p>Product not found.</p>;
@@ -24,6 +24,10 @@ const ProductPage = async ({ params }: ProductPageProps) => {
       <ProductDetails product={product} />
     </Container>
   );
-};
+}
 
-export default ProductPage;
+// Explicitly define dynamic paths
+export async function generateStaticParams() {
+  const slugs = await fetchAllProductSlugs(); // Replace with your actual data fetching logic
+  return slugs.map((slug: string) => ({ params: { slug } }));
+}
