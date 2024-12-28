@@ -2,21 +2,20 @@ import React from "react";
 import { getProductBySlug } from "@/sanity/helpers";
 import Container from "@/components/Container";
 import ProductDetails from "@/components/ProductDetails";
+import { notFound } from "next/navigation";
 
-// Update types for dynamic routing
+// Define the type for `params` to support async handling
 interface ProductPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 
 // Dynamic routing and async handling
-export default async function ProductPage({ params }: ProductPageProps) {
-  const slug = params.slug; // Explicitly use slug as a string
+const ProductPage = async ({ params }: ProductPageProps) => {
+  const { slug } = await params; // Await the `params` as it's now a Promise
   const product = await getProductBySlug(slug);
 
   if (!product) {
-    return <p>Product not found.</p>;
+    return notFound(); // Use Next.js `notFound` utility for 404 behavior
   }
 
   return (
@@ -24,10 +23,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <ProductDetails product={product} />
     </Container>
   );
-}
+};
 
-// Explicitly define dynamic paths
+export default ProductPage;
+
+// Explicitly define dynamic paths for static generation
 export async function generateStaticParams() {
   const slugs = await fetchAllProductSlugs(); // Replace with your actual data fetching logic
-  return slugs.map((slug: string) => ({ params: { slug } }));
+  return slugs.map((slug: string) => ({ slug })); // Ensure `slug` structure matches the updated `params` type
 }
