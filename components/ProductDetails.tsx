@@ -35,7 +35,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
         const newViewers = increase ? prev + change : prev - change;
         return Math.max(100, Math.min(220, newViewers)); // Clamp between 100 and 220
       });
-    }, 1000); //
+    }, 1000);
 
     return () => clearInterval(interval); // Cleanup
   }, []);
@@ -50,7 +50,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
                 src={urlFor(product?.image).url()}
                 alt="productImage"
                 layout="fill"
-                objectFit="contain" // Ensures the image fits within the container
+                objectFit="contain"
                 priority
                 className="group-hover:scale-110 hoverEffect rounded-md transition-transform duration-300"
               />
@@ -68,12 +68,16 @@ const ProductDetails = ({ product }: { product: Product }) => {
                     <LuStar
                       fill={!isLastStar ? "#fca99b" : "transparent"}
                       key={index}
-                      className={`${isLastStar ? "text-gray-500" : "text-lightOrange"}`}
+                      className={`${
+                        isLastStar ? "text-gray-500" : "text-lightOrange"
+                      }`}
                     />
                   );
                 })}
               </div>
-              <p className="text-sm font-medium text-gray-500">{`(25 reviews)`}</p>
+              <p className="text-sm font-medium text-gray-500">
+                {`(25 reviews)`}
+              </p>
             </div>
           </div>
           <PriceView
